@@ -8,7 +8,7 @@ import serial
 
 def start_server():
     # init player data
-    WPM_data = [0, 0]
+    WPM_data = "(0,0)"
 
     # User selects mode (Single-Player or Versus)
     print("Single-Player Mode (type '1') or Versus Mode (type '2')? ")
@@ -52,11 +52,12 @@ def start_server():
         print(f"Player-2 ID: {player2_id}")
 
     # Init serial communcations with ESP32
-    serial_port = 'COM3'
+    serial_port = 'COM7'
     baud_rate = 115200
 
     # Open serial connection
-    ser = serial.Serial(port=serial_port, baudrate=baud_rate, timeout=1)
+    ser = serial.Serial(port=serial_port, baudrate=baud_rate)
+    time.sleep(2)
 
     while True:
         player1_data = player1_socket.recv(1024).decode()
@@ -64,9 +65,7 @@ def start_server():
             break
         player1_data = functions.to_numbers(player1_data)
         print(f"Player-1: {player1_data} WPM")
-
-        # Store player data
-        WPM_data[0] = player1_data
+        WPM_data = f"({player1_data},0)"
 
         # Repeat for Player-2 if Versus mode
         if mode == 2:
@@ -75,8 +74,10 @@ def start_server():
                 break
             player2_data = functions.to_numbers(player2_data)
             print(f"Player-2: {player2_data} WPM")
+            WPM_data = f"({player1_data},{player2_data})"
 
-            WPM_data[1] = player2_data
+
+        
 
         # Send Data to ESP32 via UART
         ser.write(WPM_data.encode('utf-8'))
