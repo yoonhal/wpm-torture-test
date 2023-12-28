@@ -15,5 +15,8 @@ def to_numbers(input):
     for c in input:
         if (c.isdigit()):
             number = number + c
+            
+    if number == '':
+        return 0
 
     return int(number)

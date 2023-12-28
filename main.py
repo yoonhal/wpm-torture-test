@@ -5,14 +5,8 @@ import time
 import keyboard
 import socket
 import uuid
-import serial
-from dotenv import load_dotenv
 import os
 import functions
-
-# Configurations
-def configure():
-    load_dotenv()
 
 
 # Main program - open monkeytype and start receiving/sending data
@@ -52,30 +46,19 @@ def wpm_run():
             # Parsing the HTML 
             soup = BeautifulSoup(page_source, 'html.parser')
     
-            wpm = functions.to_numbers(soup.find('div', class_='wpm hidden')) 
+            player_wpm = functions.to_numbers(soup.find('div', class_='wpm hidden')) 
     
-            if (wpm == 0):
+            if (player_wpm == 0):
                 print("Please Start Typing!")
             else:
-                print(f"Current WPM is: {wpm}")
+                print(f"Current WPM is: {player_wpm}")
         
 
-            # TODO communicate to Server
+            # Send player data to server
             try:
-                client_socket.send(str(wpm).encode())
+                client_socket.send(str(player_wpm).encode())
             except ValueError:
                 print("Invalid value")
-
-            # Send Data to ESP32 via UART
-            # try:
-            #     # Send data
-            #     ser.write(wpm.encode('utf-8'))
-
-            #     # Read response
-            #     #response = ser.readline().decode('utf-8')
-
-            # finally:
-            #     print("data sent")
 
             # HOLD "esc" to exit
             if keyboard.is_pressed('esc'):
@@ -88,9 +71,10 @@ def wpm_run():
         print(f"An error occurred: {e}")
         driver.quit()
          #ser.close()
+        
     print("--- PROGRAM END ---")
 
 
 if __name__ == "__main__":
-    configure()
+    functions.configure()
     wpm_run()
