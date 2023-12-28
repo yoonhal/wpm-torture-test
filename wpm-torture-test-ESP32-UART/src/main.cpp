@@ -1,7 +1,14 @@
 #include <Arduino.h>
 
+#define PLAYER1 12
+#define PLAYER2 14
+#define STOP 23
+
+#define START_BUFFER 2000
+
 char storedDataWPM[64] = "";
 int player_wpm[2] = {0};
+bool pause_state = true;
 
 void parseData(char *dataStored, int *wpmValues){
   
@@ -49,19 +56,46 @@ void storeSerialData(char *charArray) {
 
 void setup() {
   Serial.begin(115200);
-  pinMode(2,OUTPUT);
+  pinMode(PLAYER1, OUTPUT);
+  pinMode(PLAYER2, OUTPUT);
+  pinMode(STOP, INPUT);
 }
 
 void loop() {
+
+  while (pause_state) {
+
+    if (digitalRead(STOP)) {
+      pause_state = false;
+      delay(START_BUFFER);
+      break;
+    }
+  }
+  
   if (Serial.available() > 0) {
     if (Serial.read() == '(') {
       storeSerialData(storedDataWPM);
     }
   }
 
+  
   if (player_wpm[0] < 50){
-    digitalWrite(2, HIGH);
+    digitalWrite(PLAYER1, HIGH);
   } else {
-    digitalWrite(2, LOW);
+    digitalWrite(PLAYER1, LOW);
   }
+
+  if (player_wpm[1] < 50){
+    digitalWrite(PLAYER2, HIGH);
+  } else {
+    digitalWrite(PLAYER2, LOW);
+  }
+
+  if (digitalRead(STOP)) {
+    pause_state = true;
+    digitalWrite(PLAYER1, LOW);
+    digitalWrite(PLAYER2, LOW);
+    delay(START_BUFFER);
+  }
+
 }

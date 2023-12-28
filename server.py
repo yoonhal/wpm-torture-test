@@ -52,7 +52,7 @@ def start_server():
         print(f"Player-2 ID: {player2_id}")
 
     # Init serial communcations with ESP32
-    serial_port = 'COM7'
+    serial_port = 'COM5'
     baud_rate = 115200
 
     # Open serial connection
