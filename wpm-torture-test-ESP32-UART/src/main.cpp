@@ -8,9 +8,9 @@
 
 // game constants
 #define START_BUFFER 3000 // short buffer before start of game
-#define THRESHOLD 120 // game ends when level reaches 120 WPM
+#define THRESHOLD 100 // game ends when level reaches 120 WPM
 #define LEVEL_INCREASE 10 // increases by 10 WPM every level
-#define LEVEL_TIMER 15000 // 15 seconds
+#define LEVEL_TIMER 10000 // 10 seconds
 #define LED_TIMER 1000 // 1 second
 
 char storedDataWPM[64] = "";
@@ -80,9 +80,9 @@ void setup() {
 
   // indicate set up completion
   digitalWrite(LED, LOW);
-  delay(100);
+  delay(1000);
   digitalWrite(LED, HIGH);
-  delay(100);
+  delay(1000);
   digitalWrite(LED, LOW);
 }
 
@@ -105,7 +105,7 @@ void loop() {
   current_time = millis();
 
   // Determine if we increase level (time passed LEVEL_TIMER)
-  if (current_time - prev_time > LEVEL_TIMER && level_wpm <= THRESHOLD) {
+  if ((current_time - prev_time > LEVEL_TIMER) && (level_wpm <= THRESHOLD)) {
     // Increase level wpm
     level_wpm += LEVEL_INCREASE;
 
@@ -115,7 +115,7 @@ void loop() {
     // reset timer for level
     prev_time = current_time;
   }
-  else {
+  else if (level_wpm > THRESHOLD) {
     // if last level has been reaeched, restart game
     digitalWrite(PLAYER1, LOW);
     digitalWrite(PLAYER2, LOW);

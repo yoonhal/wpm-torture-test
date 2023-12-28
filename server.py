@@ -1,5 +1,4 @@
 import socket
-import keyboard
 import time
 import functions
 import os
@@ -41,10 +40,10 @@ def start_server():
 
     player1_id = player1_socket.recv(1024).decode()
     print(f"Player-1 ID: {player1_id}")
-
-    print("Waiting for Player-2...")
     
     if mode == 2:
+        print("Waiting for Player-2...")
+
         player2_socket, player2_address = server_socket.accept()
         print(f"Connection from {player2_address} as Player-2")
 
