@@ -4,7 +4,8 @@
 #define PLAYER2 14
 #define STOP 23
 
-#define START_BUFFER 2000
+#define START_BUFFER 3000
+#define THRESHOLD 100
 
 char storedDataWPM[64] = "";
 int player_wpm[2] = {0};
@@ -79,13 +80,13 @@ void loop() {
   }
 
   
-  if (player_wpm[0] < 50){
+  if (player_wpm[0] < THRESHOLD){
     digitalWrite(PLAYER1, HIGH);
   } else {
     digitalWrite(PLAYER1, LOW);
   }
 
-  if (player_wpm[1] < 50){
+  if (player_wpm[1] < THRESHOLD){
     digitalWrite(PLAYER2, HIGH);
   } else {
     digitalWrite(PLAYER2, LOW);
