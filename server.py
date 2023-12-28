@@ -51,6 +51,13 @@ def start_server():
         player2_id = player2_socket.recv(1024).decode()
         print(f"Player-2 ID: {player2_id}")
 
+    # Init serial communcations with ESP32
+    serial_port = 'COM3'
+    baud_rate = 115200
+
+    # Open serial connection
+    ser = serial.Serial(port=serial_port, baudrate=baud_rate, timeout=1)
+
     while True:
         player1_data = player1_socket.recv(1024).decode()
         if not player1_data:
@@ -72,20 +79,16 @@ def start_server():
             WPM_data[1] = player2_data
 
         # Send Data to ESP32 via UART
-        # try:
-        #     # Send data
-        #     ser.write(wpm.encode('utf-8'))
+        ser.write(WPM_data.encode('utf-8'))
 
-        #     # Read response
-        #     #response = ser.readline().decode('utf-8')
-
-        # finally:
-        #     print("data sent")
+        # Read response
+        #response = ser.readline().decode('utf-8')
 
     player1_socket.close()
     if mode == 2:
         player2_socket.close()
     server_socket.close()
+    ser.close()
 
     print("--- SERVER DISCONNECTED ---")
 
