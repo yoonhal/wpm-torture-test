@@ -4,7 +4,9 @@ Learn how to type faster using our _**very**_ human design!
 Introducing a device that employs a touch of negative reinforcement to accelerate your typing prowess! A _Gentle_ reminder, delivered through a specially modified Transcutaneous Electrical Nerve Stimulation (TENS) device, awaits those who type below optimal speeds. Embrace the mild discomfort and let it propel you towards lightning-fast typing or be prepared for a mild shock of consequences...
 
 Watch our project journey:
+
 Kevin's Video: https://www.youtube.com/watch?v=CoXnmaqHGUE
+
 Yoonha's Video: (Coming Soon...)
 
 ### A One-Day, Hackathon Inspired Project
